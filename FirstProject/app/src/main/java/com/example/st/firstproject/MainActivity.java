@@ -14,55 +14,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Log.d("Activity", "onStart");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Log.d("Activity", "onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        Log.d("Activity", "onDestroy");
-
-    }
+public class MainActivity extends AppCompatActivity implements ListFragment.PizzaSelectedListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-        getSupportFragmentManager().beginTransaction().add(R.id.first_container , MainFragment.CreateNewInstance(50))
-                                                        .add(R.id.second_container, new SecondFragment()).commit();
 
-        Log.d("Activity", "onCreate");
+        if(savedInstanceState == null){
+            initFragments();
+        }
+    }
 
+
+    private  void initFragments(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.first_container, new ListFragment())
+                .commit();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onPizzaSelected(int index) {
+        Fragment detailsFragment =
+                DetailsFragment.newInstance(Constants.PIZZA_DESCRIPTION[index]);
 
-        Log.d("Activity", "onResume");
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.second_container,detailsFragment)
+                .commit();
+
+
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        Log.d("Activity", "onPause");
-    }
-
-
 }
