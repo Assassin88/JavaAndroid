@@ -1,0 +1,118 @@
+package by.palchevsky.reactive;
+
+import com.sun.istack.internal.NotNull;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+//import java.util.function.Function;
+
+public class Application {
+    public static void main(String[] args) {
+        //error().observeOn(Schedulers.io()).subscribe(newObserver());
+        //from().subscribe(newObserver());
+        //error().subscribe(newObserver());
+        //Observable.timer(1, TimeUnit.SECONDS).take(30, TimeUnit.SECONDS).observeOn(Schedulers.io()).subscribe(newObserver());
+        //Observable.just(1l).repeat(3).subscribe(newObserver());
+//        Observable.just(1l,2l,3l,4l).map(new Function<Long, String>() {
+//        @Override
+//            public String call(Long s)
+//        {
+//            return s.toString();
+//        }
+//        }).subscribe(newObserver());
+        //Observable.just(10,20,30,40,50,60,70,80,90,100).map( j -> j*10).subscribe(newObserver());
+        //Observable.just(1,2,3,4,5,6,7,8,9,10).filter( j -> j>5).subscribe(newObserver());
+//        Observable.just(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).flatMap(
+//                new Function<Integer, Observable<Integer>>() {
+//                    @Override
+//                    public Observable<Integer> apply(Integer integer) {
+//                        if (integer > 5) return Observable.just(integer);
+//                        else {
+//                            return Observable.empty();
+//                        }
+//                    }
+//                }
+//        ).subscribe(newObserver());
+
+//        Observable.just(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).flatMap(
+//                jjj -> jjj > 5 ? Observable.just(jjj) : Observable.empty()
+//        ).subscribe(newObserver());
+
+//        Observable.just(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).flatMap(
+//                jjj -> Observable.just(jjj * 10)
+//        ).subscribe(newObserver());
+
+        //Observable.just(1, 1, 2, 2, 2, 2, 3, 4, 5, 6).distinct().subscribe(newObserver());
+//        Observable obs1 = Observable.just(1, 1, 2, 2, 2, 2, 3, 4, 5, 6);
+//        Observable obs2 = Observable.just(1, 1, 2, 2, 2, 2, 3, 4, 5, 6);
+
+
+        HashMap<Integer, String> first = new HashMap<Integer, String>();
+        first.put(1, "name1");
+        first.put(2, "name2");
+        first.put(3, "name3");
+        first.put(4, "name4");
+        first.put(5, "name5");
+
+        HashMap<Integer, String> cities = new HashMap<Integer, String>();
+        cities.put(1, "city1");
+        cities.put(2, "city2");
+        cities.put(3, "city3");
+        cities.put(4, "city4");
+        cities.put(5, "city5");
+
+        Observable.zip(Observable.fromIterable(first.entrySet()), Observable.fromIterable(cities.entrySet()),
+                (ff, aa ) -> new Pair(ff.getValue(), aa.getValue()) )
+                .subscribe( ff  -> System.out.println(ff));
+    }
+
+
+    @NotNull
+    public static Observable<Integer> from() {
+        List<Integer> list = new ArrayList<>();
+        list.add(5);
+        list.add(-22);
+        list.add(8);
+        list.add(4);
+        return Observable.fromIterable(list);
+    }
+
+    public static Observer<Integer> newObserver() {
+        return new Observer<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                System.out.println("onSubscribe " + d);
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                System.out.println("Next value: " + integer);
+                System.out.println("Thread: " + Thread.currentThread().getId());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("onError: " + e);
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("Completed");
+            }
+        };
+    }
+
+    @NotNull
+    public static Observable<Integer> error() {
+
+        return Observable.<Integer>error(new RuntimeException()).onErrorReturnItem(-1);
+    }
+}
