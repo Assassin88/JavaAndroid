@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +16,11 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import java.util.Arrays;
+
 public class ListFragment extends Fragment {
 
-    private ListView mListView;
+    private RecyclerView mRecycleView;
     private PizzaSelectedListener mPizzaListListener;
 
     @Nullable
@@ -37,17 +41,22 @@ public class ListFragment extends Fragment {
     }
 
     private void initUI(View view){
-        mListView = view.findViewById(R.id.pizzaListLv);
-        BaseAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.test_list_item, Constants.PIZZA_TYPES);
-        mListView.setAdapter(adapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(mPizzaListListener != null){
-                    mPizzaListListener.onPizzaSelected(position);
+        mRecycleView = view.findViewById(R.id.pizzaListLv);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        PizzaAdapter adapter = new PizzaAdapter(getContext(), Arrays.asList(Constants.PIZZA_TYPES));
+
+        mRecycleView.setAdapter(adapter);
+
+        adapter.setItemClickListener(
+                new PizzaAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(int index) {
+                        if(mPizzaListListener != null){
+                            mPizzaListListener.onPizzaSelected(index);
+                        }
+                    }
                 }
-            }
-        });
+        );
     }
 
     private void initListener(Context context){

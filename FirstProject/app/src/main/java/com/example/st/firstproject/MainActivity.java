@@ -1,31 +1,31 @@
 package com.example.st.firstproject;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
+import com.example.st.firstproject.services.RssService;
+import com.example.st.firstproject.services.api.TechCrunchApi;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements ListFragment.PizzaSelectedListener {
+
+    private static final String RSS_LINK = "http://feeds.feedburner.com/";
+    private RssService service;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        service = new RssService(buildApi());
         if(savedInstanceState == null){
             initFragments();
         }
     }
-
 
     private  void initFragments(){
         getSupportFragmentManager()
@@ -43,7 +43,21 @@ public class MainActivity extends AppCompatActivity implements ListFragment.Pizz
                 .beginTransaction()
                 .replace(R.id.second_container,detailsFragment)
                 .commit();
+    }
 
+    private TechCrunchApi buildApi() {
+        return provideRetrofit().create(TechCrunchApi.class);
+    }
 
+    private Retrofit provideRetrofit() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+
+        return new Retrofit.Builder()
+                .baseUrl(RSS_LINK)
+                .client(client)
+                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
     }
 }

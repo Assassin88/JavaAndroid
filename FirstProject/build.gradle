@@ -20,6 +20,12 @@ allprojects {
         google()
         jcenter()
     }
+
+    ext {
+        rxJavaVersion = "2.1.3"
+        rxAndroidVersion = "2.1.0"
+        retrofitVersion = "2.3.0"
+    }
 }
 
 task clean(type: Delete) {
