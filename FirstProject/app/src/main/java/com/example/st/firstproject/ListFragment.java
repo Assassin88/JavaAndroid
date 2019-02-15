@@ -16,12 +16,23 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.example.st.firstproject.adapters.RssAdapter;
+import com.example.st.firstproject.model.RssFeed;
+import com.example.st.firstproject.model.RssFeedItem;
+import com.example.st.firstproject.services.RssService;
+
 import java.util.Arrays;
+import java.util.List;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class ListFragment extends Fragment {
 
     private RecyclerView mRecycleView;
     private PizzaSelectedListener mPizzaListListener;
+    private CompositeDisposable compositeDisposable;
 
     @Nullable
     @Override
@@ -38,25 +49,56 @@ public class ListFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         initListener(context);
+        compositeDisposable = new CompositeDisposable();
+        callRssService((IServiceProvider) context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        compositeDisposable.dispose();
+    }
+
+    private void callRssService(IServiceProvider service){
+        Disposable disposable = service.GetRssServiceProvider().getItems().subscribeWith(new DisposableObserver<RssFeed>() {
+            @Override
+            public void onNext(RssFeed rssFeed) {
+                updateAdapter();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+        compositeDisposable.add(disposable);
     }
 
     private void initUI(View view){
         mRecycleView = view.findViewById(R.id.pizzaListLv);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
-        PizzaAdapter adapter = new PizzaAdapter(getContext(), Arrays.asList(Constants.PIZZA_TYPES));
+    }
+
+    private void updateAdapter(List<RssFeedItem> items){
+        RssAdapter adapter = new RssAdapter(getContext(), items);  //Arrays.asList(Constants.PIZZA_TYPES)
 
         mRecycleView.setAdapter(adapter);
 
         adapter.setItemClickListener(
-                new PizzaAdapter.ItemClickListener() {
+                new RssAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int index) {
                         if(mPizzaListListener != null){
                             mPizzaListListener.onPizzaSelected(index);
                         }
                     }
-                }
-        );
+                });
     }
 
     private void initListener(Context context){

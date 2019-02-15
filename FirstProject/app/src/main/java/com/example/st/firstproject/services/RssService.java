@@ -1,9 +1,14 @@
 package com.example.st.firstproject.services;
 
+import android.util.Log;
+
 import com.example.st.firstproject.model.RssFeed;
 import com.example.st.firstproject.services.api.TechCrunchApi;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class RssService {
@@ -15,8 +20,6 @@ public class RssService {
     }
 
     public Observable<RssFeed> getItems() {
-        return api.getItems();
-        //TODO: change subscription and observer threads!!
-
+        return api.getItems().subscribeOn(Schedulers.io());
     }
 }

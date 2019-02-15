@@ -23,10 +23,15 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements ListFragment.PizzaSelectedListener {
+public class MainActivity extends AppCompatActivity implements ListFragment.PizzaSelectedListener, IServiceProvider {
 
     private static final String RSS_LINK = "http://feeds.feedburner.com/";
     private RssService service;
+
+    @Override
+    public RssService GetRssServiceProvider() {
+        return service;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,28 +43,6 @@ public class MainActivity extends AppCompatActivity implements ListFragment.Pizz
             initFragments();
         }
 
-        service.getItems().subscribeOn(Schedulers.io()).subscribe(new Observer<RssFeed>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(RssFeed rssFeed) {
-                Log.d("service", rssFeed.toString());
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e("service: -------- ", e.getMessage());
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-
-        });
     }
 
     private  void initFragments(){
@@ -95,4 +78,6 @@ public class MainActivity extends AppCompatActivity implements ListFragment.Pizz
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
+
+
 }

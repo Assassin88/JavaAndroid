@@ -6,7 +6,6 @@
     android:orientation="vertical"
     >
 
-
     <TextView
         android:text="Pizza_list"
         android:layout_width="wrap_content"
