@@ -63,12 +63,15 @@ public class ListFragment extends Fragment {
         Disposable disposable = service.GetRssServiceProvider().getItems().subscribeWith(new DisposableObserver<RssFeed>() {
             @Override
             public void onNext(RssFeed rssFeed) {
-                updateAdapter();
+                mRecycleView.setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.rssErrorTv).setVisibility(View.GONE);
+                updateAdapter(rssFeed.getChannel().getItemList());
             }
 
             @Override
             public void onError(Throwable e) {
-
+                getView().findViewById(R.id.rssErrorTv).setVisibility(View.VISIBLE);
+                mRecycleView.setVisibility(View.GONE);
             }
 
             @Override

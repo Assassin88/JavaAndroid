@@ -29,17 +29,6 @@ public class RssAdapter extends RecyclerView.Adapter<RssAdapter.ViewHolder> {
         this.listener = listener;
     }
 
-//    @Override
-//    public int getCount() {
-//        return pizzas.size();
-//    }
-//
-//    @Override
-//    public Object getItem(int position) {
-//
-//        return null;
-//    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
