@@ -1,5 +1,4 @@
 package com.example.st.firstproject;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,19 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-
 import com.example.st.firstproject.adapters.RssAdapter;
 import com.example.st.firstproject.model.RssFeed;
 import com.example.st.firstproject.model.RssFeedItem;
-import com.example.st.firstproject.services.RssService;
-
-import java.util.Arrays;
 import java.util.List;
-
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -89,7 +79,7 @@ public class ListFragment extends Fragment {
     }
 
     private void updateAdapter(List<RssFeedItem> items){
-        RssAdapter adapter = new RssAdapter(getContext(), items);  //Arrays.asList(Constants.PIZZA_TYPES)
+        RssAdapter adapter = new RssAdapter(getContext(), items);
 
         mRecycleView.setAdapter(adapter);
 

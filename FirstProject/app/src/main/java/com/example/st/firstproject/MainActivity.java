@@ -1,23 +1,10 @@
 package com.example.st.firstproject;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-
-import com.example.st.firstproject.model.RssFeed;
 import com.example.st.firstproject.services.RssService;
 import com.example.st.firstproject.services.api.TechCrunchApi;
-
-import java.io.Console;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -78,6 +65,4 @@ public class MainActivity extends AppCompatActivity implements ListFragment.Pizz
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
-
-
 }

@@ -1,5 +1,4 @@
 package com.example.st.firstproject;
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.util.List;
 
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> {
@@ -23,17 +21,6 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     public void setItemClickListener(ItemClickListener listener){
         this.listener = listener;
     }
-
-//    @Override
-//    public int getCount() {
-//        return pizzas.size();
-//    }
-//
-//    @Override
-//    public Object getItem(int position) {
-//
-//        return null;
-//    }
 
     @NonNull
     @Override

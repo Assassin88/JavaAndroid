@@ -1,8 +1,6 @@
 package com.example.st.firstproject.model;
-
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-
 import java.io.Serializable;
 import java.util.List;
 

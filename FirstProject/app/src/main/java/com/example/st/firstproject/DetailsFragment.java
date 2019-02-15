@@ -1,5 +1,4 @@
 package com.example.st.firstproject;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
@@ -44,12 +43,6 @@ public class DetailsFragment extends Fragment {
         String details = getArguments().getString(DETAILS_KEY);
 
         this.detailsTv.setText(details);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                doLongTask();
-//            }
-//        }).start();
         new Task().execute();
     }
 
