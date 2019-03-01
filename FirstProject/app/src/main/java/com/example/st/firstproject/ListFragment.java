@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.example.st.firstproject.adapters.RssAdapter;
 import com.example.st.firstproject.model.RssFeed;
 import com.example.st.firstproject.model.RssFeedItem;
@@ -23,6 +25,7 @@ public class ListFragment extends Fragment {
     private RecyclerView mRecycleView;
     private PizzaSelectedListener mPizzaListListener;
     private CompositeDisposable compositeDisposable;
+    private TextView mErrorView;
 
     @Nullable
     @Override
@@ -76,6 +79,7 @@ public class ListFragment extends Fragment {
     private void initUI(View view){
         mRecycleView = view.findViewById(R.id.pizzaListLv);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mErrorView = view.findViewById(R.id.rssErrorTv);
     }
 
     private void updateAdapter(List<RssFeedItem> items){

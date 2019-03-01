@@ -2,6 +2,7 @@ package com.example.st.firstproject.services;
 import com.example.st.firstproject.model.RssFeed;
 import com.example.st.firstproject.services.api.TechCrunchApi;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -14,6 +15,8 @@ public class RssService {
     }
 
     public Observable<RssFeed> getItems() {
-        return api.getItems().subscribeOn(Schedulers.io());
+        return api.getItems()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
     }
 }

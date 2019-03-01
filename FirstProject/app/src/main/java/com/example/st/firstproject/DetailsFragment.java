@@ -43,61 +43,61 @@ public class DetailsFragment extends Fragment {
         String details = getArguments().getString(DETAILS_KEY);
 
         this.detailsTv.setText(details);
-        new Task().execute();
+        //new Task().execute();
     }
 
-    public class Task extends AsyncTask<Void, Integer, Void>{
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            int index = 0;
-            while (index < 5){
-                try{
-                    Thread.sleep(1000);
-                }
-                catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-                publishProgress(index);
-                index++;
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            Log.d("Tag", "Thread id" + Thread.currentThread().getId());
-            Log.d("Tag", "on progress update" + values[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            DoSomeUiStuff();
-        }
-    }
-
-    private void doLongTask(){
-        try{
-            Log.d("Tag", "Thread id" + Thread.currentThread().getId());
-            Thread.sleep(6000);
-        }
-        catch (InterruptedException e){
-
-        }
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("Tag", "mainLooper" + Looper.getMainLooper().getThread().getId());
-                Log.d("Tag", "ui update Thread id" + Thread.currentThread().getId());
-                DoSomeUiStuff();
-            }
-        });
-    }
-
-    private void DoSomeUiStuff() {
-            progressBar.setVisibility(View.GONE);
-            detailsTv.setVisibility(View.VISIBLE);
-    }
+//    public class Task extends AsyncTask<Void, Integer, Void>{
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            int index = 0;
+//            while (index < 5){
+//                try{
+//                    Thread.sleep(1000);
+//                }
+//                catch (InterruptedException e){
+//                    e.printStackTrace();
+//                }
+//                publishProgress(index);
+//                index++;
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            Log.d("Tag", "Thread id" + Thread.currentThread().getId());
+//            Log.d("Tag", "on progress update" + values[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            DoSomeUiStuff();
+//        }
+//    }
+//
+//    private void doLongTask(){
+//        try{
+//            Log.d("Tag", "Thread id" + Thread.currentThread().getId());
+//            Thread.sleep(6000);
+//        }
+//        catch (InterruptedException e){
+//
+//        }
+//
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d("Tag", "mainLooper" + Looper.getMainLooper().getThread().getId());
+//                Log.d("Tag", "ui update Thread id" + Thread.currentThread().getId());
+//                DoSomeUiStuff();
+//            }
+//        });
+//    }
+//
+//    private void DoSomeUiStuff() {
+//            progressBar.setVisibility(View.GONE);
+//            detailsTv.setVisibility(View.VISIBLE);
+//    }
 }
